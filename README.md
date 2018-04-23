@@ -1,6 +1,6 @@
 # Critical path metod
 
-## Useage
+## Usage
     usage: main.py [-h] [-f FILE] [-n [NODES [NODES ...]]]
                [-e [EDGES [EDGES ...]]] [--example]
 
