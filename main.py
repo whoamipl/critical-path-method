@@ -1,6 +1,9 @@
 from cpm import *
 import matplotlib.pyplot as plt
 import argparse
+import warnings
+
+
 
 
 def showExapmle(): 

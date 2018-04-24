@@ -1,3 +1,5 @@
+import warnings
+warnings.simplefilter('ignore')
 import networkx as nx
 import matplotlib.pyplot as plt
 
@@ -43,20 +45,22 @@ class CPM(nx.DiGraph):
 
     def _forward(self):
         for n in nx.topological_sort(self):
-            S = max([self.node[j]['C']
+            print("Starting times: ")
+            ES = max([self.node[j]['EF']
                      for j in self.predecessors(n)], default=0)
-            self.add_node(n, S=S, C=S + self.node[n]['p'])
+            print(ES)
+            self.add_node(n, ES=ES, EF=ES + self.node[n]['p'])
 
     def _backward(self):
         for n in nx.topological_sort(self, reverse=True):
-            Cp = min([self.node[j]['Sp']
+            LF = min([self.node[j]['LS']
                       for j in self.successors(n)], default=self._makespan)
-            self.add_node(n, Sp=Cp - self.node[n]['p'], Cp=Cp)
+            self.add_node(n, LS=LF - self.node[n]['p'], LF=LF)
 
     def _computeCriticalPath(self):
         G = set()
         for n in self:
-            if self.node[n]['C'] == self.node[n]['Cp']:
+            if self.node[n]['EF'] == self.node[n]['LF']:
                 G.add(n)
         self._criticalPath = self.subgraph(G)
 
@@ -74,7 +78,7 @@ class CPM(nx.DiGraph):
 
     def _update(self):
         self._forward()
-        self._makespan = max(nx.get_node_attributes(self, 'C').values())
+        self._makespan = max(nx.get_node_attributes(self, 'EF').values())
         self._backward()
         self._computeCriticalPath()
         self._changed = False
