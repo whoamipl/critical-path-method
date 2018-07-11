@@ -4,9 +4,7 @@ import argparse
 import warnings
 
 
-
-
-def showExapmle(): 
+def showExapmle():
     print("Showing example")
     example = CPM()
     example.add_node(1, p=3)
@@ -17,12 +15,13 @@ def showExapmle():
     example.add_node(6, p=1)
     example.add_node(7, p=2)
 
-    example.add_edges_from([(1, 3), (3, 5), (5, 7), (2, 4), (4, 5), (4, 6), (6, 7)])
-    
+    example.add_edges_from([(1, 2), (1, 3), (3, 5), (5, 7), (2, 4), (4, 5), (4, 6), (6, 7)])
+
     example.drawGraph(filename="example.png")
 
     print(example.makespan)
     print(example.criticalPath.nodes())
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -38,10 +37,11 @@ def main():
         for node, processing_time in zip(args.nodes[::2], args.nodes[1::2]):
             graph.add_node(node, p=processing_time)
     if args.edges:
-        graph.add_edges_from(list(zip(args.edges[::2], args.edges[1::2]))) 
+        graph.add_edges_from(list(zip(args.edges[::2], args.edges[1::2])))
         print(graph.makespan)
         print(graph.criticalPath.nodes())
-        
+
         graph.drawGraph(filename=args.file)
+
 
 main()
