@@ -1,7 +1,9 @@
-import warnings
-warnings.simplefilter('ignore')
 import networkx as nx
 import matplotlib.pyplot as plt
+import warnings
+
+warnings.simplefilter('ignore')
+
 
 class CPM(nx.DiGraph):
 
@@ -19,9 +21,9 @@ class CPM(nx.DiGraph):
         self._changed = True
         super().add_nodes_from(*args, **kwargs)
 
-    def add_edge(self, *args):  
+    def add_edge(self, *args):
         self._changed = True
-        super().add_edge(*args) 
+        super().add_edge(*args)
 
     def add_edges_from(self, *args, **kwargs):
         self._changed = True
@@ -35,9 +37,9 @@ class CPM(nx.DiGraph):
         self._changed = True
         super().remove_nodes_from(*args, **kwargs)
 
-    def remove_edge(self, *args): 
+    def remove_edge(self, *args):
         self._changed = True
-        super().remove_edge(*args) 
+        super().remove_edge(*args)
 
     def remove_edges_from(self, *args, **kwargs):
         self._changed = True
@@ -47,7 +49,7 @@ class CPM(nx.DiGraph):
         for n in nx.topological_sort(self):
             print("Starting times: ")
             ES = max([self.node[j]['EF']
-                     for j in self.predecessors(n)], default=0)
+                      for j in self.predecessors(n)], default=0)
             print(ES)
             self.add_node(n, ES=ES, EF=ES + self.node[n]['p'])
 
@@ -84,9 +86,8 @@ class CPM(nx.DiGraph):
         self._changed = False
 
     def drawGraph(self, filename):
-        nx.draw_networkx(self._criticalPath, with_labels=True, font_weight='bold')
+        nx.draw_networkx(self.criticalPath, with_labels=True, font_weight='bold')
         if filename:
             plt.savefig(filename)
         else:
             plt.savefig('cp-graph.png')
-
